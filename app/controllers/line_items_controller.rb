@@ -80,11 +80,32 @@ class LineItemsController < ApplicationController
   # DELETE /line_items/1.xml
   def destroy
     @line_item = LineItem.find(params[:id])
-    @line_item.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(line_items_url) }
-      format.xml  { head :ok }
+    @cart = @line_item.cart
+    
+    @line_item.quantity = @line_item.quantity - 1
+    @line_item.update_attributes(:quantity)
+    
+    if (@line_item.quantity == 0)
+      @line_item.destroy
+   
+      if(@line_item.cart.line_items.size == 0)
+        @line_item.cart.destroy
+        session[:cart_id] = nil
+      end
+      
+      respond_to do |format|
+            format.html { redirect_to(store_url) }
+            format.js { @current_item = nil }
+            format.xml  { head :ok }
+      end
+    
+    else
+      respond_to do |format|
+            format.html { redirect_to(store_url) }
+            format.js { @current_item = @line_item }
+            format.xml  { head :ok }
+      end
     end
+    
   end
 end
