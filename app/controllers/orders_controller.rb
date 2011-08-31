@@ -2,8 +2,9 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.xml
   def index
-    @orders = Order.all
-@cart = current_cart
+    @orders = Order.paginate :page=>params[:page], :order=>'created_at desc',
+:per_page => 10
+    @cart = current_cart
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @orders }
@@ -13,7 +14,7 @@ class OrdersController < ApplicationController
   # GET /orders/1
   # GET /orders/1.xml
   def show
-@cart = current_cart
+    @cart = current_cart
     @order = Order.find(params[:id])
 
     respond_to do |format|
