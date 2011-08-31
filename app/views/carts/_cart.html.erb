@@ -8,6 +8,13 @@
 		<td class="total_cell" ><%= number_to_currency(cart.total_price) %></td>
 	</tr>
 </table>
-<%= button_to "Checkout", new_order_path, :method => :get %>
+<div id="checkout">
+	<%= hidden_div_if(!@order.nil?, :id => "checkout") do %>
+	<%= button_to "Checkout", new_order_path, :method => :get %>
+	<% end %>
+</div> 
+
+<!-- <%= button_to "Checkout", new_order_path, :method => :get %> -->
+
 <%= button_to 'Empty cart', cart, :method => :delete,
 :confirm => 'Are you sure?' %>
