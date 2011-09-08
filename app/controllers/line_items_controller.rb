@@ -42,6 +42,9 @@ class LineItemsController < ApplicationController
   def create
     @cart = current_cart
     product = Product.find(params[:product_id])
+    product.popularity = product.popularity + 1
+    product.update_attributes(:popularity)
+    
     @line_item = @cart.line_items.build(:product => product)
     
     session[:counter]=0

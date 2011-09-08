@@ -17,5 +17,8 @@
       <span class="price" ><%= number_to_currency(product.price) %></span>
       <%= button_to 'Add to Cart', line_items_path(:product_id => product) %>
     </div> 
+    <% if product.popularity > 0 %>
+    <p>This book has been put in shoppers' shopping cart for <b><%= pluralize(product.popularity, "time") %></b> </p>
+    <% end %>  
   </div> 
 <% end %>
