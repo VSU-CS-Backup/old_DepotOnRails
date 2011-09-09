@@ -42,15 +42,14 @@ class LineItemsController < ApplicationController
   def create
     @cart = current_cart
 
-    
     product = Product.find(params[:product_id])
     product.popularity = product.popularity + 1
     product.update_attributes(:popularity)
 
     @line_item = @cart.add_product(product.id)
-    
+
     session[:counter]=0
-    
+
     respond_to do |format|
       if @line_item.save
         format.html { redirect_to(@line_item.cart) }
@@ -84,16 +83,21 @@ class LineItemsController < ApplicationController
     @line_item = LineItem.find(params[:id])
     cart = @line_item.cart
     product = @line_item.product
-    
-    product.popularity = product.popularity - @line_item.quantity
+
+    product.popularity = product.popularity  - 1 #@line_item.quantity
     product.update_attributes(:popularity)
     
-    @line_item.destroy
-
+    @line_item.quantity = @line_item.quantity - 1
+    @line_item.update_attributes(:quantity)
+    if (@line_item.quantity == 0)
+     @line_item.destroy 
+    end
+    
+   
     if (cart.total_price == 0)
       respond_to do |format|
         logger.error "total_price == #{cart.total_price}"
-        
+
         cart.destroy
         session[:cart_id] = nil
 
