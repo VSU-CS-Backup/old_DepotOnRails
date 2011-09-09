@@ -85,6 +85,9 @@ class LineItemsController < ApplicationController
     cart = @line_item.cart
     product = @line_item.product
     
+    product.popularity = product.popularity - @line_item.quantity
+    product.update_attributes(:popularity)
+    
     @line_item.destroy
 
     if (cart.total_price == 0)

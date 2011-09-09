@@ -80,6 +80,13 @@ class CartsController < ApplicationController
   def destroy
     logger.error("Destroying cart.............................................")
     @cart = current_cart
+    
+    @cart.line_items.each do |line_item|
+      product = line_item.product
+      product.popularity = product.popularity - line_item.quantity
+      product.update_attributes(:popularity)
+    end
+    
     @cart.destroy
     session[:cart_id] = nil
     respond_to do |format|
