@@ -43,6 +43,7 @@ class LineItemsController < ApplicationController
     @cart = current_cart
 
     product = Product.find(params[:product_id])
+
     product.popularity = product.popularity + 1
     product.update_attributes(:popularity)
 
@@ -52,7 +53,8 @@ class LineItemsController < ApplicationController
 
     respond_to do |format|
       if @line_item.save
-        format.html { redirect_to(@line_item.cart) }
+        format.html { redirect_to(store_url) }
+        format.js {@current_item = @line_item}
         format.xml { render :xml => @line_item,:status => :created, :location => @line_item }
       else
         format.html { render :action => "new" }
@@ -80,35 +82,37 @@ class LineItemsController < ApplicationController
   # DELETE /line_items/1
   # DELETE /line_items/1.xml
   def destroy
+    @cart = @line_item.cart
     @line_item = LineItem.find(params[:id])
-    cart = @line_item.cart
+    
     product = @line_item.product
-
     product.popularity = product.popularity  - 1 #@line_item.quantity
     product.update_attributes(:popularity)
     
     @line_item.quantity = @line_item.quantity - 1
     @line_item.update_attributes(:quantity)
-    if (@line_item.quantity == 0)
-     @line_item.destroy 
-    end
     
+    if (@line_item.quantity == 0)
+      @line_item.destroy
    
-    if (cart.total_price == 0)
-      respond_to do |format|
-        logger.error "total_price == #{cart.total_price}"
-
-        cart.destroy
+      if(@line_item.cart.line_items.size == 0)
+        @line_item.cart.destroy
         session[:cart_id] = nil
-
-        format.html { redirect_to store_url, :notice => 'Your cart is currently empty' }
-        format.xml  { head :ok }
       end
+      
+      respond_to do |format|
+            format.html { redirect_to(store_url) }
+            format.js { @current_item = nil }
+            format.xml  { head :ok }
+      end
+    
     else
       respond_to do |format|
-        format.html { redirect_to(cart) }
-        format.xml  { head :ok }
+            format.html { redirect_to(store_url) }
+            format.js { @current_item = @line_item }
+            format.xml  { head :ok }
       end
     end
+    
   end
 end
