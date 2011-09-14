@@ -82,8 +82,8 @@ class LineItemsController < ApplicationController
   # DELETE /line_items/1
   # DELETE /line_items/1.xml
   def destroy
-    @cart = @line_item.cart
     @line_item = LineItem.find(params[:id])
+    @cart = @line_item.cart
     
     product = @line_item.product
     product.popularity = product.popularity  - 1 #@line_item.quantity
