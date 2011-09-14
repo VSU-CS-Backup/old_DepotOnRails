@@ -34,7 +34,7 @@
 	<%= f.label :pay_type %>
 	<br />
 	<!-- START_HIGHLIGHT -->
-	<%= f.select :pay_type, Order::PAYMENT_TYPES,
+	<%= f.select :pay_type, PaymentType.names,
     :prompt => 'Select a payment method' %> <!-- END_HIGHLIGHT -->
 </div>
 <div class="actions">
