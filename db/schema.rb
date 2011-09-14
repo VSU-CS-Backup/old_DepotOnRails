@@ -10,7 +10,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20110908171217) do
+=======
+ActiveRecord::Schema.define(:version => 20110831173721) do
+>>>>>>> master
 
   create_table "carts", :force => true do |t|
     t.datetime "created_at"
@@ -49,6 +53,14 @@ ActiveRecord::Schema.define(:version => 20110908171217) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.decimal  "popularity",                                :default => 0.0
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "hashed_password"
+    t.string   "salt"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

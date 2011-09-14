@@ -1,10 +1,11 @@
 class OrdersController < ApplicationController
+  skip_before_filter :authorize, :only => [:new, :create]
   # GET /orders
   # GET /orders.xml
   def index
+    @cart = current_cart
     @orders = Order.paginate :page=>params[:page], :order=>'created_at desc',
 :per_page => 10
-    @cart = current_cart
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @orders }
@@ -27,6 +28,7 @@ class OrdersController < ApplicationController
   # GET /orders/new.xml
   def new
     @cart = current_cart
+    
     if @cart.line_items.empty?
       redirect_to store_url, :notice => "Your cart is empty"
     return
@@ -42,12 +44,14 @@ class OrdersController < ApplicationController
 
   # GET /orders/1/edit
   def edit
+    @cart = current_cart
     @order = Order.find(params[:id])
   end
 
   # POST /orders
   # POST /orders.xml
   def create
+    @cart = current_cart
     @order = Order.new(params[:order])
     @order.add_line_items_from_cart(current_cart)
     respond_to do |format|
@@ -59,7 +63,8 @@ class OrdersController < ApplicationController
         format.xml { render :xml => @order, :status => :created,
 :location => @order }
       else
-        format.html { render :action => "new" }
+        format.html { 
+          render :action => "new" }
         format.xml { render :xml => @order.errors,
 :status => :unprocessable_entity }
       end
@@ -69,6 +74,7 @@ class OrdersController < ApplicationController
   # PUT /orders/1
   # PUT /orders/1.xml
   def update
+    @cart = current_cart
     @order = Order.find(params[:id])
 
     respond_to do |format|
@@ -85,6 +91,7 @@ class OrdersController < ApplicationController
   # DELETE /orders/1
   # DELETE /orders/1.xml
   def destroy
+    @cart = current_cart
     @order = Order.find(params[:id])
     @order.destroy
 
