@@ -20,6 +20,8 @@
   <%= @order.pay_type %>
 </p>
 
+<!-- <%= gmaps4rails(@json) %> -->
+<%= gmaps({ "direction" => { "data" => { "from" => @seller.address, "to" => @order.address } } })%>
 
 <%= link_to 'Edit', edit_order_path(@order) %> |
 <%= link_to 'Back', orders_path %>

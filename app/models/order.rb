@@ -5,7 +5,6 @@ class Order < ActiveRecord::Base
   validates :pay_type, :inclusion => PaymentType.names
 
   has_many :line_items, :dependent => :destroy
-
   # ...
   # ...
   def add_line_items_from_cart(cart)
@@ -14,4 +13,15 @@ class Order < ActiveRecord::Base
       line_items << item
     end
   end
+
+acts_as_gmappable
+
+  def gmaps4rails_address
+    address
+  end
+
+  def gmaps4rails_infowindow
+    "<h4>#{name}</h4>" << "<h4>#{address}</h4>"
+  end
+
 end

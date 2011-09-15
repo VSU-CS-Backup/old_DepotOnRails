@@ -6,6 +6,14 @@ class OrdersController < ApplicationController
     @cart = current_cart
     @orders = Order.paginate :page=>params[:page], :order=>'created_at desc',
 :per_page => 10
+    
+    @orders.each do |order|
+      order.gmaps = true
+      order.update_attributes(:gmaps)
+    end
+    
+    @json = Order.all.to_gmaps4rails
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @orders }
@@ -17,6 +25,12 @@ class OrdersController < ApplicationController
   def show
     @cart = current_cart
     @order = Order.find(params[:id])
+    
+    @seller = User.find_by_id(session[:user_id])
+    @seller.gmaps = true
+    @seller.update_attributes(:gmaps)
+    
+    # @json = @seller.to_gmaps4rails
 
     respond_to do |format|
       format.html # show.html.erb

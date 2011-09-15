@@ -18,6 +18,7 @@ require 'digest/sha2'
 
 class User < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
+  validates :address, :presence => true
  
   validates :password, :confirmation => true
   attr_accessor :password_confirmation
@@ -54,6 +55,16 @@ class User < ActiveRecord::Base
       raise "Can't delete last user"
     end
   end  
+  
+acts_as_gmappable
+
+  def gmaps4rails_address
+    address
+  end
+
+  def gmaps4rails_infowindow
+    "<h4>#{name}</h4>" << "<h4>#{address}</h4>"
+  end
   
   private
 
