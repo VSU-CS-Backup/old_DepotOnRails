@@ -10,7 +10,10 @@ Depot::Application.routes.draw do
 
   resources :users
 
-  resources :orders
+  resources :orders do
+    resource :line_items do
+    end
+  end
 
   resources :line_items
 

@@ -14,7 +14,12 @@ class LineItemsController < ApplicationController
   # GET /line_items/1
   # GET /line_items/1.xml
   def show
-    @line_item = LineItem.find(params[:id])
+    if (params[:order_id]!=nil)
+      order = Order.find(params[:order_id])
+      @line_item = order.line_items.all
+    else
+      @line_item = LineItem.find(params[:id])
+    end
 
     respond_to do |format|
       format.html # show.html.erb
