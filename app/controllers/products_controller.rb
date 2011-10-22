@@ -47,7 +47,8 @@ class ProductsController < ApplicationController
   def create
     @cart = current_cart
     @product = Product.new(params[:product])
-
+    @product.user_id = session[:user_id]
+    
     respond_to do |format|
       if @product.save
         format.html { redirect_to(@product, :notice => 'Product was successfully created.') }

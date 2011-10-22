@@ -17,6 +17,8 @@
 require 'digest/sha2'
 
 class User < ActiveRecord::Base
+  has_many :products
+  
   validates :name, :presence => true, :uniqueness => true
   validates :address, :presence => true
  
@@ -25,7 +27,7 @@ class User < ActiveRecord::Base
   attr_reader   :password
 
   validate  :password_must_be_present
-  
+
   def User.authenticate(name, password)
     if user = find_by_name(name)
       if user.hashed_password == encrypt_password(password, user.salt)
