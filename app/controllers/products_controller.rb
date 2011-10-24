@@ -4,8 +4,18 @@ class ProductsController < ApplicationController
   # GET /products.xml
   def index
     @cart = current_cart
-    @products = Product.all
-
+    
+    if (session[:user_id]!=nil)
+      user = User.find(session[:user_id])
+      if (user.name == 'admin')
+         @products = Product.all
+      else
+        @products = user.products.all
+      end
+    else
+      @products = Product.all
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @products }
@@ -16,6 +26,7 @@ class ProductsController < ApplicationController
   # GET /products/1.xml
   def show
     @cart = current_cart
+    
     @product = Product.find(params[:id])
 
     respond_to do |format|
