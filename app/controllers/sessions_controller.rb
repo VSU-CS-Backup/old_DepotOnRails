@@ -37,7 +37,11 @@ class SessionsController < ApplicationController
   def destroy
     @cart = current_cart
     session[:user_id] = nil
-    redirect_to store_url, :notice => "Logged out"
+
+    respond_to do |format|
+        format.html {redirect_to store_url, :notice => "Logged out" }
+        format.xml  { render :text => "Logged out" }
+      end
   end
 
 end
