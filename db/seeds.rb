@@ -10,23 +10,23 @@
 
 User.delete_all
 User.create( :name => 'admin', :password => 'admin', :password_confirmation => 'admin', 
-                  :address => '1500 N. Patterson St. Valdosta GA 31698')
+                  :address => '1500 N. Patterson St., Valdosta GA 31698')
 
 User.create( :name => 'dave', :password => 'dave', :password_confirmation => 'dave', 
-                  :address => '1500 N. Patterson St. Valdosta GA 31698')
+                  :address => '1550 Baytree Rd., Valdosta GA 31602')
                   
 User.create( :name => 'mary', :password => 'mary', :password_confirmation => 'mary', 
-                  :address => '1500 N. Patterson St. Valdosta GA 31698')
+                  :address => '1598 Norman Dr., Valdosta GA 31601')
                   
 User.create( :name => 'john', :password => 'john', :password_confirmation => 'john', 
-                  :address => '1500 N. Patterson St. Valdosta GA 31698')                  
+                  :address => '340 Norman Dr., Valdosta GA 31601')                  
                                     
 Product.delete_all
 Product.create(:title => 'Web Design for Developers',
   :description => 
     %{<p>
         <em>Web Design for Developers</em> will show you how to make your
-        web-based application look professionally designed. We'll help you
+        web-based application look professionally designed. We will help you
         learn how to pick the right colors and fonts, avoid costly interface
         and accessibility mistakes -- your application will really come alive.
         We'll also walk you through some common Photoshop and CSS techniques
@@ -66,11 +66,11 @@ Product.create(:title => 'Rails Test Prescriptions',
     %{<p>
         <em>Rails Recipes</em> is written for novice to intermediate Rails developers, 
         Rails Recipes: Rails 3 Edition is packed with solutions to 70 of the most vexing problems 
-        you\’re likely to face on the job. From building custom forms and powering pages with JQuery 
-        to integrating with legacy databases, it\’s all here. 
+        you are likely to face on the job. From building custom forms and powering pages with JQuery 
+        to integrating with legacy databases, it is all here. 
         Each recipe has been updated to reflect the latest features of Rails 3.1 and 
         each lays out a distinctive solution to a problem you may be facing today 
-        or could well encounter tomorrow. In addition, you\’ll find half the book is stocked 
+        or could well encounter tomorrow. In addition, you will find half the book is stocked 
         with new eye-opening solutions to such common problems as how to extend Rails, 
         test and deploy your sites, or add a web service to your actions. 
         And each recipe not only lays out a succinct solution, 

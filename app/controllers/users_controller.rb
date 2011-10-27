@@ -19,7 +19,18 @@ class UsersController < ApplicationController
   # GET /users.xml
   def index
     @cart=current_cart
-    @users = User.order(:name)
+    
+    if (session[:user_id]!=nil)
+      user = User.find(session[:user_id])
+      if (user.name == 'admin')
+         @users = User.order(:name)
+      else
+        @users = [user]
+      end
+    else
+      @users = User.order(:name)
+    end
+    
 
     respond_to do |format|
       format.html # index.html.erb
