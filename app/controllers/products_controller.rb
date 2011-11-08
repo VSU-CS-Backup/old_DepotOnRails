@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
-  skip_before_filter :authorize, :only => [:index]
+  
+  skip_before_filter :authorize, :only => [:index, :destroy, :update]
   # GET /products
   # GET /products.xml
   def index
@@ -57,8 +58,22 @@ class ProductsController < ApplicationController
   # POST /products.xml
   def create
     @cart = current_cart
-    @product = Product.new(params[:product])
-    @product.user_id = session[:user_id]
+    # @product = Product.new(params[:product])
+    # @product.user_id = session[:user_id]
+    
+     if (params[:product])
+        @product = Product.new(params[:product])
+        @product.user_id = session[:user_id]
+     else
+        params[:product] = {:title=>params[:title], 
+                            :description=>params[:description],   
+                            :image_url=>params[:image_url], 
+                            :price=>params[:price]
+                            }
+        @product = Product.new(params[:product])
+        @product.user_id = session[:user_id]
+    end
+  
     
     respond_to do |format|
       if @product.save
@@ -76,6 +91,15 @@ class ProductsController < ApplicationController
   def update
     @cart = current_cart
     @product = Product.find(params[:id])
+    
+    if (!params[:product])
+     params[:product] = {:title=>params[:title], 
+                            :description=>params[:description],   
+                            :image_url=>params[:image_url], 
+                            :price=>params[:price]
+                        }     
+    end
+
 
     respond_to do |format|
       if @product.update_attributes(params[:product])
