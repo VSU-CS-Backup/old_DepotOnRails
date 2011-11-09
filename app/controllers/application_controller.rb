@@ -16,7 +16,7 @@
 #---
 class ApplicationController < ActionController::Base
   before_filter :authorize
-  protect_from_forgery
+  protect_from_forgery :only => [ ]
 
   private
 

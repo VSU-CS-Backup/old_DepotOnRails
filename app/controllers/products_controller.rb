@@ -1,6 +1,4 @@
 class ProductsController < ApplicationController
-  
-  skip_before_filter :authorize, :only => [:index, :destroy, :update]
   # GET /products
   # GET /products.xml
   def index
