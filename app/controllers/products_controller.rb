@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
-  # GET /products
+  skip_before_filter :authorize, :only => [:index]
+  
   # GET /products.xml
   def index
     @cart = current_cart
