@@ -72,8 +72,18 @@ class UsersController < ApplicationController
   # POST /users.xml
   def create
     @cart=current_cart
-    @user = User.new(params[:user])
+    # @user = User.new(params[:user])
 
+     if (params[:user])
+        @user = User.new(params[:user])
+     else
+        params[:user] = {:name=>params[:name], 
+                            :password=>params[:password],   
+                            :password_confirmation=>params[:password_confirmation], 
+                            :address=>params[:address]
+                            }
+        @user = User.new(params[:user])
+    end
     respond_to do |format|
       if @user.save
         format.html { redirect_to(users_url,
