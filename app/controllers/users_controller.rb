@@ -94,6 +94,10 @@ class UsersController < ApplicationController
     @cart=current_cart
     @user = User.find(params[:id])
 
+    if (!params[:user])
+     params[:user] = {:address=>params[:address]}     
+    end
+    
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to(users_url,
