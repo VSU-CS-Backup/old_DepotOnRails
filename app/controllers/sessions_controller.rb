@@ -24,7 +24,10 @@ class SessionsController < ApplicationController
     @cart = current_cart
     if user = User.authenticate(params[:name], params[:password])
       session[:user_id] = user.id
-      redirect_to admin_url
+      respond_to do |format|
+        format.html {redirect_to admin_url}
+        format.xml  { render :text => "Valid user/password combination" }
+      end
     else
       respond_to do |format|
         format.html {redirect_to login_url, :alert => "Invalid user/password combination" }
